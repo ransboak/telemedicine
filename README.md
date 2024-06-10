@@ -1,4 +1,4 @@
-![telemedicine-dash](https://github.com/ransboak/telemedicine/assets/66210638/a475421b-6973-41bf-b90f-04a52dc2a6d6)# Telemedicine Platform
+## Telemedicine Platform
 
 This is a simple telemedicine platform for a hospital that wants to limit physical access to its premises.
 
