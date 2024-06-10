@@ -38,9 +38,9 @@ class AppointmentController extends Controller
                 'notes' => "Notes",
             ]);
     
-            return redirect()->route('appointments')->with('success', 'Appointment rescheduled successfully');
+            return redirect()->route('appointments')->with('success', 'Appointment booked successfully');
         } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Unable to reschedule appointment');
+            return redirect()->back()->with('error', 'Unable to book appointment');
         }
        
 
