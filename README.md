@@ -24,7 +24,7 @@ This is a simple telemedicine platform for a hospital that wants to limit physic
 ## Set up environment variables
 
 ## Run migrations
-php artisan migrate
+    php artisan migrate
 
 ## Serve the application
-php artisan serve
+    php artisan serve
