@@ -43,6 +43,7 @@ Route::middleware(['auth', 'force.password.change', 'doctor'])->group(function()
     Route::post('/reschedule/{appointment}', [AppointmentController::class, 'reschedule'])->name('reschedule');
     Route::post('/approve/{appointment}', [AppointmentController::class, 'approve'])->name('approve');
     Route::post('/decline/{appointment}', [AppointmentController::class, 'decline'])->name('decline');
+    Route::get('/patients', [PageController::class, 'patients'])->name('patients');
 });
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/view-doctors', [PageController::class, 'viewDoctors'])->name('view.doctors');

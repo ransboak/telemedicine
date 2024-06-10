@@ -29,6 +29,7 @@
                 </li>
                 @endif
                 
+                
                 @php
                 if (Auth::user()->role == 'patient'){
                     $consultation = Appointment::where('patient_id', Auth::user()->id)->where('status', 'Approved')->whereDate('scheduled_at', \Carbon\Carbon::today())->count();
@@ -47,6 +48,12 @@
                 <li>
                     <a href="{{route('chat')}}" class="waves-effect"><i class="mdi mdi-home-analytics"></i><span
                         class="badge badge-pill badge-primary float-right">{{$consultation}}</span><span>Consultation Room</span></a>
+                </li>
+                @endif
+
+                @if (Auth::user()->role == 'doctor')
+                <li>
+                    <a href="{{route('patients')}}" class="waves-effect"><i class="mdi mdi-home-analytics"></i><span>Patients</span></a>
                 </li>
                 @endif
                 

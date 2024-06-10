@@ -26,6 +26,13 @@ class PageController extends Controller
         } 
         return redirect()->back();
     }
+    public function patients(){
+        if(Auth::user()->role == 'doctor'){
+            $patients = User::where('role', 'patient')->get();
+            return view('backend.pages.patients', compact('patients'));
+        } 
+        return redirect()->back();
+    }
 
     public function appointments(){
         if(Auth::check()){
