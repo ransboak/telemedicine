@@ -51,7 +51,7 @@ class UserController extends Controller
     public function updateDoctor(Request $request, $doctor){
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'exists:users,email'],
             'contact' => ['required', 'string', 'max:255'],
             'field' => ['required', 'string', 'max:255']
         ]);

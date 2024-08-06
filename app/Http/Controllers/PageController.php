@@ -13,16 +13,12 @@ class PageController extends Controller
 {
     //
     public function dashboard(){
-        if(Auth::check()){
             return view('backend.pages.dashboard');
-        } 
-        return redirect()->back();
     }
 
     public function viewDoctors(){
         if(Auth::user()->role == 'admin'){
-            $doctors = User::where('role', 'doctor')->get();
-            return view('backend.pages.doctors', compact('doctors'));
+            return view('backend.pages.doctors');
         } 
         return redirect()->back();
     }

@@ -15,7 +15,9 @@ class DoctorPatient
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth()->user()->role=='doctor' || Auth()->user()->role=='patient'){
+        $roles = ['doctor', 'patient'];
+        $user_role = auth()->user()->role;
+        if(in_array($user_role, $roles)){
             return $next($request);
         }
         return redirect()->back();

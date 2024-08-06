@@ -20,12 +20,19 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $role = $this->faker->randomElement(array_merge(
+            array_fill(0, 3, 'patient'),
+            array_fill(0, 1, 'doctor')
+        ));
+
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'firstname' => fake()->firstName(),
+            'lastname' => fake()->lastName(),
+            'email' => fake()->email(),
+            'contact' => fake()->numerify('0#########'),
+            'password' => Hash::make('12345678'),
+            'role' => $role,
         ];
     }
 
