@@ -103,7 +103,7 @@
                                 </tbody>
                             </table> --}}
 
-                            <table id="datatable-buttons" class="table table-stripednowrap">
+                            <table id="patients-table" class="table table-stripednowrap">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -119,27 +119,7 @@
                             
                             
                                 <tbody>
-                                    @foreach ($patients as $patient)
-                                    <tr>
-                                        <td>{{$patient->name}}</td>
-                                        <td>{{$patient->email}}</td>
-                                        <td>{{$patient->contact}}
-                                        </td>
-                                        {{-- <td>
-                                            <i style="cursor: pointer" class="mdi mdi-pencil" data-toggle="modal" data-target="#editModal{{$patient->id}}"></i>
-                                        </button>
-                                    </td> --}}
-                                    {{-- @if (Auth::user()->role == 'patient')
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-sm waves-effect waves-light" data-toggle="modal" data-target="#rescheduleModal{{$appointment->id}}" {{$appointment->status == 'pending' ? '' : 'disabled'}} >Reschedule</button>
-                                </td>
-                                    @endif --}}
-                                        
-                                    </tr>
                                    
-
-                                    
-                                    @endforeach
                                     
                                 </tbody>
                             </table>
@@ -155,4 +135,26 @@
     <!-- End Page-content -->
 
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#patients-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route('patients') }}',
+                type: 'GET',
+            },
+            columns: [
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                { data: 'contact', name: 'contact' },
+                // { data: 'action', name: 'action', orderable: false, searchable: false }
+            ],
+            dom: 'Bfrtip',
+        });
+    
+    });
+    </script>
 @endsection

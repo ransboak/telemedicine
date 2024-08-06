@@ -186,7 +186,7 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: {
-            url: '{{ route('doctors.data') }}',
+            url: '{{ route('view.doctors') }}',
             type: 'GET',
         },
         columns: [

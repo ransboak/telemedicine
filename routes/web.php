@@ -47,7 +47,7 @@ Route::middleware(['auth', 'doctor'])->group(function(){
 });
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/view-doctors', [PageController::class, 'viewDoctors'])->name('view.doctors');
-    Route::get('/doctor-data', [DoctorController::class, 'viewDoctors'])->name('doctors.data');
+    // Route::get('/doctor-data', [DoctorController::class, 'viewDoctors'])->name('doctors.data');
     Route::post('/addDoctor', [UserController::class, 'addDoctor'])->name('add.doctor');
     Route::put('/updateDoctor/{doctor}', [UserController::class, 'updateDoctor'])->name('update.doctor');
 });

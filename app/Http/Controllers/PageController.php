@@ -8,6 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class PageController extends Controller
 {
@@ -16,16 +17,40 @@ class PageController extends Controller
             return view('backend.pages.dashboard');
     }
 
-    public function viewDoctors(){
-        if(Auth::user()->role == 'admin'){
+    // public function viewDoctors(){
+    //     if(Auth::user()->role == 'admin'){
+    //         return view('backend.pages.doctors');
+    //     } 
+    //     return redirect()->back();
+    // }
+    public function viewDoctors(Request $request)
+    {
+        if (Auth::user()->role == 'admin') {
+            if ($request->ajax()) {
+                $doctors = User::where('role', 'doctor')->with('doctor')->select('users.*');
+
+                return DataTables::of($doctors)
+                    ->addColumn('action', function ($doctor) {
+                        return view('backend.partials.action-buttons', compact('doctor'))->render();
+                    })
+                    ->addColumn('specialization', function ($doctor) {
+                        return $doctor->doctor->field;
+                    })
+                    ->make(true);
+            }
             return view('backend.pages.doctors');
-        } 
+        }
         return redirect()->back();
     }
-    public function patients(){
+
+    public function patients(Request $request){
         if(Auth::user()->role == 'doctor'){
-            $patients = User::where('role', 'patient')->get();
-            return view('backend.pages.patients', compact('patients'));
+            if ($request->ajax()) {
+                $patients = User::where('role', 'patient')->select('name','email', 'contact');
+                return DataTables::of($patients)
+                    ->make(true);
+            }
+            return view('backend.pages.patients');
         } 
         return redirect()->back();
     }
@@ -36,7 +61,7 @@ class PageController extends Controller
             $authUserId = $authUser->id;
             $today = Carbon::today();
             $statusInactive = 'Inactive';
-            $appointments = Appointment::whereDate('scheduled_at', '<', $today)
+            $appointments = Appointment::with('doctor')->whereDate('scheduled_at', '<', $today)
         ->where('status', '!=', $statusInactive)
         ->where(function ($query) use ($authUserId) {
         $query->where('patient_id', $authUserId)
