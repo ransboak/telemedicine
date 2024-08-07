@@ -61,26 +61,26 @@ class PageController extends Controller
             $authUserId = $authUser->id;
             $today = Carbon::today();
             $statusInactive = 'Inactive';
-            $appointments = Appointment::with('doctor')->whereDate('scheduled_at', '<', $today)
-        ->where('status', '!=', $statusInactive)
-        ->where(function ($query) use ($authUserId) {
-        $query->where('patient_id', $authUserId)
-              ->orWhere('doctor_id', $authUserId);
-        })
-        ->update([
-            'status' => 'Inactive',
-        ]);
-            
-            // foreach($appointments as $appointment){
-            //     $appointment_date = $appointment->scheduled_at;
-            // $appointment->update([
-            //     'status' => 'Inactive',
-            // ]);
-        // }
+
+            $appointments = Appointment::with('doctor')
+            ->whereDate('scheduled_at', '<', $today)
+            ->where('status', '!=', $statusInactive)
+            ->where(function ($query) use ($authUserId) {
+                $query->where('patient_id', $authUserId)
+                      ->orWhere('doctor_id', $authUserId);
+            });
+        
+
+        if ($appointments->exists()) {
+            $appointments->update([
+                'status' => 'Inactive',
+            ]);
+        }
+   
             if($authUser->role == 'doctor'){
-                $user = Doctor::where('user_id', $authUserId)->first();
+                $user = Doctor::with('appointments.patient')->where('user_id', $authUserId)->first();
             }elseif($authUser->role == 'patient'){
-                $user = User::where('id', $authUserId)->first();
+                $user = User::with('appointments.doctor.user')->where('id', $authUserId)->first();
             }
             return view('backend.pages.appointments', compact('user'));
         } 
